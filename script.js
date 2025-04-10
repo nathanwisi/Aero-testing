@@ -1,62 +1,83 @@
-// Setting up 3D Scene (Three.js)
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth * 0.6, window.innerHeight);
-document.getElementById('scene-container').appendChild(renderer.domElement);
 
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-camera.position.set(0, 5, 10);
-controls.update();
-
-// Create a simple 3D object (e.g., a car)
-const geometry = new THREE.BoxGeometry(1, 0.5, 2);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const car = new THREE.Mesh(geometry, material);
-scene.add(car);
-
-// Add a light source
-const light = new THREE.AmbientLight(0x404040); // Ambient light
-scene.add(light);
-
-function animate() {
-  requestAnimationFrame(animate);
-  car.rotation.x += 0.01;
-  car.rotation.y += 0.01;
-  controls.update();
-  renderer.render(scene, camera);
-}
-animate();
-
-// Downforce and Lap Time Calculator Logic
-const airSpeedSlider = document.getElementById('air-speed');
-const airDensitySlider = document.getElementById('air-density');
-const calculateLapButton = document.getElementById('calculate-lap');
-const lapTimeResult = document.getElementById('lap-time-result');
-
-calculateLapButton.addEventListener('click', () => {
-  const airSpeed = airSpeedSlider.value;
-  const airDensity = airDensitySlider.value;
-
-  // Example Calculation - Adjust based on the complexity you want
-  const downforce = calculateDownforce(airSpeed, airDensity);
-  const lapTime = calculateLapTime(downforce);
-  lapTimeResult.textContent = `Estimated Lap Time: ${lapTime} seconds`;
-});
-
-function calculateDownforce(speed, density) {
-  // Simple downforce equation: Downforce = 0.5 * Cd * A * p * V^2
-  // where: Cd = drag coefficient, A = frontal area, p = air density, V = speed
-  const Cd = 1.0; // Example drag coefficient
-  const A = 2.0; // Example frontal area in m²
-  return 0.5 * Cd * A * density * Math.pow(speed / 3.6, 2); // Speed in m/s
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #fff;
+    margin: 0;
+    padding: 0;
 }
 
-function calculateLapTime(downforce) {
-  // Example lap time formula: Lap Time = (track length / average speed) + adjustments
-  const trackLength = 5000; // Example track length in meters
-  const avgSpeed = 100 + downforce / 1000; // Adjust average speed based on downforce
-  return (trackLength / avgSpeed).toFixed(2); // Simple lap time calculation
+header {
+    background-color: #333;
+    text-align: center;
+    padding: 20px;
 }
 
-// Add more functions and interactions as needed
+h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+#simulation-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+#scene-container {
+    flex: 1;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#controls {
+    flex: 1;
+    background-color: #444;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+input[type="number"] {
+    width: 80px;
+    margin: 10px 0;
+}
+
+button {
+    background-color: #555;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #777;
+}
+
+#lap-time-container {
+    text-align: center;
+    padding: 20px;
+}
+
+select, input[type="number"] {
+    margin: 10px;
+    padding: 5px;
+}
+
+#lap-time-result {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
