@@ -1,83 +1,43 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const wingAngleSlider = document.getElementById("wing-angle");
+    const airSpeedSlider = document.getElementById("air-speed");
+    const airDensitySlider = document.getElementById("air-density");
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-}
+    const wingAngleValue = document.getElementById("wing-angle-value");
+    const airSpeedValue = document.getElementById("air-speed-value");
+    const airDensityValue = document.getElementById("air-density-value");
 
-header {
-    background-color: #333;
-    text-align: center;
-    padding: 20px;
-}
+    // Update the values as sliders move
+    wingAngleSlider.addEventListener("input", () => {
+        wingAngleValue.textContent = wingAngleSlider.value;
+    });
 
-h1 {
-    margin: 0;
-    font-size: 2em;
-}
+    airSpeedSlider.addEventListener("input", () => {
+        airSpeedValue.textContent = airSpeedSlider.value;
+    });
 
-#simulation-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-}
+    airDensitySlider.addEventListener("input", () => {
+        airDensityValue.textContent = airDensitySlider.value;
+    });
 
-#scene-container {
-    flex: 1;
-    background-color: #444;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-}
+    // 3D Model and Airflow Simulation (Placeholder for now)
+    const runSimulationButton = document.getElementById("run-simulation");
+    runSimulationButton.addEventListener("click", () => {
+        alert("Running simulation with current settings...");
+        // Add actual simulation logic here.
+    });
 
-#controls {
-    flex: 1;
-    background-color: #444;
-    padding: 20px;
-    border-radius: 8px;
-}
+    // Lap Time Calculator (Placeholder for now)
+    const calculateLapTimeButton = document.getElementById("calculate-lap-time");
+    calculateLapTimeButton.addEventListener("click", () => {
+        const track = document.getElementById("track-select").value;
+        const tires = document.getElementById("tires-select").value;
+        const enginePower = document.getElementById("engine-power").value;
+        const engineRpm = document.getElementById("engine-rpm").value;
+        const engineMass = document.getElementById("engine-mass").value;
 
-h2 {
-    font-size: 1.5em;
-}
-
-input[type="range"] {
-    width: 100%;
-}
-
-input[type="number"] {
-    width: 80px;
-    margin: 10px 0;
-}
-
-button {
-    background-color: #555;
-    border: none;
-    padding: 10px 20px;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #777;
-}
-
-#lap-time-container {
-    text-align: center;
-    padding: 20px;
-}
-
-select, input[type="number"] {
-    margin: 10px;
-    padding: 5px;
-}
-
-#lap-time-result {
-    margin-top: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
-}
+        // Placeholder lap time calculation (simplified)
+        const lapTime = 120 - (enginePower / 100) + (track === "race" ? 10 : 0);
+        document.getElementById("lap-time-result").textContent = `Lap Time: ${lapTime.toFixed(2)} seconds`;
+    });
+});
