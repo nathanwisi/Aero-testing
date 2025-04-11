@@ -1,43 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const wingAngleSlider = document.getElementById("wing-angle");
-    const airSpeedSlider = document.getElementById("air-speed");
-    const airDensitySlider = document.getElementById("air-density");
+  const wingAngle = document.getElementById("wing-angle");
+  const airSpeed = document.getElementById("air-speed");
+  const airDensity = document.getElementById("air-density");
 
-    const wingAngleValue = document.getElementById("wing-angle-value");
-    const airSpeedValue = document.getElementById("air-speed-value");
-    const airDensityValue = document.getElementById("air-density-value");
+  const wingAngleValue = document.getElementById("wing-angle-value");
+  const airSpeedValue = document.getElementById("air-speed-value");
+  const airDensityValue = document.getElementById("air-density-value");
+  const resultBox = document.getElementById("lap-time-result");
 
-    // Update the values as sliders move
-    wingAngleSlider.addEventListener("input", () => {
-        wingAngleValue.textContent = wingAngleSlider.value;
-    });
+  function updateValues() {
+    wingAngleValue.textContent = wingAngle.value;
+    airSpeedValue.textContent = airSpeed.value;
+    airDensityValue.textContent = airDensity.value;
+  }
 
-    airSpeedSlider.addEventListener("input", () => {
-        airSpeedValue.textContent = airSpeedSlider.value;
-    });
+  [wingAngle, airSpeed, airDensity].forEach(input => {
+    input.addEventListener("input", updateValues);
+  });
 
-    airDensitySlider.addEventListener("input", () => {
-        airDensityValue.textContent = airDensitySlider.value;
-    });
+  document.getElementById("run-simulation").addEventListener("click", () => {
+    const angle = parseFloat(wingAngle.value);
+    const speed = parseFloat(airSpeed.value);
+    const density = parseFloat(airDensity.value);
 
-    // 3D Model and Airflow Simulation (Placeholder for now)
-    const runSimulationButton = document.getElementById("run-simulation");
-    runSimulationButton.addEventListener("click", () => {
-        alert("Running simulation with current settings...");
-        // Add actual simulation logic here.
-    });
+    const downforce = 0.5 * density * Math.pow(speed / 3.6, 2) * Math.sin(angle * Math.PI / 180);
+    alert(`Estimated Downforce: ${downforce.toFixed(2)} N`);
+  });
 
-    // Lap Time Calculator (Placeholder for now)
-    const calculateLapTimeButton = document.getElementById("calculate-lap-time");
-    calculateLapTimeButton.addEventListener("click", () => {
-        const track = document.getElementById("track-select").value;
-        const tires = document.getElementById("tires-select").value;
-        const enginePower = document.getElementById("engine-power").value;
-        const engineRpm = document.getElementById("engine-rpm").value;
-        const engineMass = document.getElementById("engine-mass").value;
+  document.getElementById("calculate-lap-time").addEventListener("click", () => {
+    const track = document.getElementById("track-select").value;
+    const tires = document.getElementById("tires-select").value;
+    const power = parseFloat(document.getElementById("engine-power").value);
+    const rpm = parseFloat(document.getElementById("engine-rpm").value);
+    const mass = parseFloat(document.getElementById("engine-mass").value);
 
-        // Placeholder lap time calculation (simplified)
-        const lapTime = 120 - (enginePower / 100) + (track === "race" ? 10 : 0);
-        document.getElementById("lap-time-result").textContent = `Lap Time: ${lapTime.toFixed(2)} seconds`;
-    });
+    let baseTime = track === "kart" ? 55 : 105;
+
+    if (tires === "semi-slicks") baseTime *= 0.97;
+    else if (tires === "slicks") baseTime *= 0.94;
+
+    baseTime -= (power / 1000);
+    baseTime += (mass / 1000);
+
+    const lapTime = Math.max(baseTime, 30).toFixed(2);
+    resultBox.innerHTML = `Lap Time Estimate: ${lapTime}s`;
+  });
+
+  updateValues();
 });
