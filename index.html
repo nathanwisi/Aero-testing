@@ -1,82 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downforce & Lap Time Simulation</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Downforce & Lap Time Simulator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <header>
-        <h1>Downforce & Lap Time Simulation</h1>
-    </header>
+  <div class="container">
+    <h1>Downforce & Lap Time Simulator</h1>
 
-    <section id="simulation-container">
-        <div id="scene-container">
-            <h2>3D Model Viewer</h2>
-            <!-- Placeholder for 3D model rendering -->
-            <div id="3d-model"></div>
-        </div>
-
-        <div id="controls">
-            <h2>Car Settings</h2>
-            <!-- Controls for sliders and settings -->
-            <label for="wing-angle">Wing Angle: </label>
-            <input type="range" id="wing-angle" min="0" max="90" step="1" value="0">
-            <span id="wing-angle-value">0</span>°
-
-            <br>
-
-            <label for="air-speed">Air Speed (km/h): </label>
-            <input type="range" id="air-speed" min="0" max="300" step="1" value="150">
-            <span id="air-speed-value">150</span> km/h
-
-            <br>
-
-            <label for="air-density">Air Density (kg/m³): </label>
-            <input type="range" id="air-density" min="1" max="2" step="0.01" value="1.225">
-            <span id="air-density-value">1.225</span> kg/m³
-
-            <br><br>
-            <button id="run-simulation">Run Simulation</button>
-        </div>
+    <section>
+      <h2>3D Model Upload</h2>
+      <input type="file" accept=".glb,.gltf,.obj,.stl" />
     </section>
 
-    <section id="lap-time-container">
-        <h2>Lap Time Calculator</h2>
-        <!-- Track layout selector -->
-        <label for="track-select">Select Track:</label>
+    <section>
+      <h2>2D Car Builder</h2>
+      <canvas id="car-canvas" width="500" height="300"></canvas>
+    </section>
+
+    <section>
+      <h2>Simulation Settings</h2>
+      <label>Wing Angle: <span id="wing-angle-value">20</span>°</label>
+      <input type="range" id="wing-angle" min="0" max="45" value="20" />
+      
+      <label>Air Speed: <span id="air-speed-value">100</span> km/h</label>
+      <input type="range" id="air-speed" min="0" max="300" value="100" />
+      
+      <label>Air Density: <span id="air-density-value">1.225</span> kg/m³</label>
+      <input type="range" id="air-density" min="0.8" max="1.3" step="0.005" value="1.225" />
+
+      <button id="run-simulation">Calculate Downforce</button>
+    </section>
+
+    <section>
+      <h2>Lap Time Estimator</h2>
+      <label>Track:
         <select id="track-select">
-            <option value="kart">Go Kart Track</option>
-            <option value="race">Race Track</option>
+          <option value="kart">Speedway Kart Arena</option>
+          <option value="race">Bahrain F1 Format</option>
         </select>
+      </label>
 
-        <br><br>
-
-        <label for="tires-select">Select Tires:</label>
+      <label>Tires:
         <select id="tires-select">
-            <option value="slicks">Slicks</option>
-            <option value="semi-slicks">Semi Slicks</option>
-            <option value="road">Road Tires</option>
+          <option value="road">Road</option>
+          <option value="semi-slicks">Semi Slicks</option>
+          <option value="slicks">Slicks</option>
         </select>
+      </label>
 
-        <br><br>
+      <label>Engine Power (hp): <input type="number" id="engine-power" value="100"/></label>
+      <label>Engine RPM: <input type="number" id="engine-rpm" value="8000"/></label>
+      <label>Engine Mass (kg): <input type="number" id="engine-mass" value="120"/></label>
 
-        <label for="engine-power">Engine Power (hp): </label>
-        <input type="number" id="engine-power" value="200">
-
-        <label for="engine-rpm">Engine RPM: </label>
-        <input type="number" id="engine-rpm" value="8000">
-
-        <label for="engine-mass">Engine Mass (kg): </label>
-        <input type="number" id="engine-mass" value="100">
-
-        <br><br>
-
-        <button id="calculate-lap-time">Calculate Lap Time</button>
-        <p id="lap-time-result">Lap Time: </p>
+      <button id="calculate-lap-time">Calculate Lap Time</button>
+      <div id="lap-time-result"></div>
     </section>
+  </div>
 
-    <script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
